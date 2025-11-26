@@ -10,20 +10,25 @@
 using namespace std;
 ComandoJardim::ComandoJardim(){}
 
-bool ComandoJardim::executar(Jardim*& jardim, std::stringstream& parametros){
+bool ComandoJardim::executar(Jardim*& jardim, stringstream& parametros){
     cout << "entrou no comando jardim" << endl;
 
     int l,c;
     if(parametros >> l && parametros >> c){
         if(l<1 || l>26 || c<1 || c>26){
-            std::cout << "Dimensoes invalidas. Linhas e colunas devem estar entre 1 e 26." << std::endl;
+            cout << "Dimensoes invalidas. Linhas e colunas devem estar entre 1 e 26." << endl;
+            return false;
+        }
+        if (l * c < 4) {
+            cout << "Erro: O jardim e demasiado pequeno para jogar." << endl;
+            cout << "A area total (linhas x colunas) deve ser pelo menos 4." << endl;
             return false;
         }
         delete jardim; // eliminar jardim anterior, se existir
         jardim = new Jardim(l,c);
-        std::cout << "Jardim criado com " << l << " linhas e " << c << " colunas." << std::endl;
+        cout << "Jardim criado com " << l << " linhas e " << c << " colunas." << endl;
         return true;
     }
-    std::cout << "Parametros insuficientes para comando 'jardim' <linhas> <colunas>." << std::endl;
+    cout << "Parametros insuficientes para comando 'jardim' <linhas> <colunas>." << endl;
     return false;
 }
