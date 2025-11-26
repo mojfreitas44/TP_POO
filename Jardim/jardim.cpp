@@ -146,7 +146,7 @@ void Jardim::simularInstante() {
 
             // 1. Se houver planta, ela age (bebe, cresce, morre)
             if (solo->getPlanta() != nullptr) {
-                solo->getPlanta()->simular(*solo);
+                solo->getPlanta()->simular(*this, l, c);
 
                 // Verifica se a planta morreu (opcional: lógica de remover se já não existir)
                 // Nota: A morte geralmente é tratada dentro do simular da planta ou aqui se ela retornar bool

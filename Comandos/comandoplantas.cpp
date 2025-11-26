@@ -63,7 +63,7 @@ bool ComandoPlanta::executar(Jardim*& jardim, std::stringstream& parametros)  {
                     nome = "planta exotica";
                     break;
                 default:
-                    cout << "Tipo de planta invalido. Use: c, r, e." << endl;
+                    cout << "Tipo de planta invalido. Use: c, r, e, x." << endl;
                     return false;
             }
 

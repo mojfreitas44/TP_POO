@@ -40,6 +40,6 @@ bool ComandoSolo::executar(Jardim*& jardim, stringstream& parametros) {
             return false;
         }
     }
-    cout << "Sintaxe: lsolo <posicao>" << endl;
+    cout << "Parametros invalidos. Uso: lsolo <posicao>" << endl;
     return false;
 }

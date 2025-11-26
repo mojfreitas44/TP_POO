@@ -16,11 +16,14 @@ protected:
     char tipo;
 public:
     virtual ~Plantas() {}
-    virtual void simular(Solo& solo) = 0;
+    virtual void simular(Jardim& jardim, int l, int c) = 0;
     virtual char getTipo() const = 0;
 
     int getAgua() const { return agua; }
     int getNutrientes() const { return nutrientes; }
+
+    void setAgua(int a) { agua = a; }
+    void setNutrientes(int n) { nutrientes = n; }
 };
 
 

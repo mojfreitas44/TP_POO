@@ -4,5 +4,5 @@
 
 #include "cacto.h"
 Cacto::Cacto() {}
-void Cacto::simular(Solo& solo) {
+void Cacto::simular(Jardim& jardim, int l, int c) {
 }

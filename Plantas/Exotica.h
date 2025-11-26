@@ -6,7 +6,7 @@
 class Exotica : public Plantas {
 public:
     Exotica();
-    void simular(Solo& solo) override;
+    void simular(Jardim& jardim, int l, int c) override;
     char getTipo() const override { return 'x'; } // Requisito do enunciado
 
 };

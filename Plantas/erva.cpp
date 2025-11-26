@@ -4,4 +4,4 @@
 
 #include "erva.h"
     Erva::Erva() {}
-    void Erva::simular(Solo& solo) {}
+    void Erva::simular(Jardim& jardim, int l, int c) {}

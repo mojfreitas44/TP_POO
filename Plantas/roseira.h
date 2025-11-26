@@ -9,7 +9,7 @@
 class Roseira : public Plantas {
 public:
     Roseira();
-    void simular(Solo& solo) override;
+    void simular(Jardim& jardim, int l, int c) override;
     char getTipo() const override { return 'r'; }
 };
 

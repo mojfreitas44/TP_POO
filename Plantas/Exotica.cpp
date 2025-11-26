@@ -1,4 +1,4 @@
 #include "Exotica.h"
 
 Exotica::Exotica() {}
-void Exotica::simular(Solo& solo) {}
+void Exotica::simular(Jardim& jardim, int l, int c) {}

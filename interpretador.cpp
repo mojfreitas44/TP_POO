@@ -9,6 +9,7 @@
 #include "Comandos/comandoavanca.h"
 #include "Comandos/comandoferramentas.h"
 #include "Comandos/comandocolhe.h"
+#include "Comandos/comandosolo.h"
 
 using namespace std;
 
@@ -29,6 +30,7 @@ Interpretador::Interpretador() {
     comandos.push_back(new ComandoFerramentas("pega"));
     comandos.push_back(new ComandoFerramentas("compra"));
     comandos.push_back(new ComandoColhe());
+    comandos.push_back(new ComandoSolo());
     // Adicione outros comandos aqui, por exemplo:
     // comandos.push_back(new ComandoEntra());
     // comandos.push_back(new ComandoSai());
