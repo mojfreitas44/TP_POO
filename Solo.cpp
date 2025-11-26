@@ -3,7 +3,7 @@
 #include <ctime>    // para time()
 #include "settings.h"
 
-Solo::Solo() : agua(0), nutrientes(0), planta(nullptr) {
+Solo::Solo() : agua(0), nutrientes(0), planta(nullptr), ferramenta(nullptr) {
     iniciarAleatorio();
 }
 

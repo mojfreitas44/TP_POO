@@ -7,6 +7,7 @@
 #include "../Plantas/cacto.h"
 #include "../Plantas/erva.h"
 #include "../Plantas/roseira.h"
+#include "../Plantas/exotica.h"
 #include "../Jardim/jardim.h"
 #include "../Jardim/posicao.h"
 #include "../Plantas/plantas.h"
