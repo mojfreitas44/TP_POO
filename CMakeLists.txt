@@ -28,5 +28,6 @@ Jardim/jardim.cpp
         jardineiro.cpp
         Plantas/Exotica.cpp
         Comandos/comandocolhe.cpp
+        Comandos/comandosolo.cpp
 
 )

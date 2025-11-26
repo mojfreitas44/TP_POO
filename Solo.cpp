@@ -56,3 +56,18 @@ Ferramentas* Solo::retirarFerramenta() {
     ferramenta = nullptr; // Desliga a ferramenta do solo sem a apagar
     return temp;
 }
+
+void Solo::adicionarAgua(int valor) {
+    agua += valor;
+}
+void Solo::retirarAgua(int valor) {
+    agua -= valor;
+    if (agua < 0) agua = 0;
+}
+void Solo::adicionarNutrientes(int valor) {
+    nutrientes += valor;
+}
+void Solo::retirarNutrientes(int valor) {
+    nutrientes -= valor;
+    if (nutrientes < 0) nutrientes = 0;
+}

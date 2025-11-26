@@ -20,6 +20,7 @@ public:
     ~Jardim();
     void desenhar() const;
     void reporFerramenta();
+    void simularInstante();
 
     Jardineiro* getJardineiro() const { return jardineiro; }
     Solo* getSolo(int linha, int coluna);

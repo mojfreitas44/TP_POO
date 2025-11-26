@@ -112,11 +112,9 @@ bool ComandoPlanta::executar(Jardim*& jardim, std::stringstream& parametros)  {
                         posStr += static_cast<char>('a' + l);
                         posStr += static_cast<char>('a' + c);
 
-                        cout << " -> " << nomePlanta << " [" << planta->getTipo() << "] na posicao " << posStr << endl;
-
-                        // NOTA: Para mostrares os nutrientes e água (requisito do enunciado),
-                        // terás de adicionar int getAgua() e int getNutrientes() na classe Plantas.h
-                        // cout << "    (Agua: " << planta->getAgua() << " | Nutrientes: " << planta->getNutrientes() << ")" << endl;
+                        cout << " -> " << nomePlanta << " [" << planta->getTipo() << "] na posicao " << posStr
+                            << " | Agua: " << planta->getAgua()
+                            << " | Nutrientes: " << planta->getNutrientes() << endl;
                     }
                 }
             }

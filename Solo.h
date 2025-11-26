@@ -22,5 +22,14 @@ public:
     void setFerramenta(Ferramentas* f);
     Ferramentas * getFerramenta() const;
     Ferramentas* retirarFerramenta();
+
+    int getAgua() const { return agua; }
+    int getNutrientes() const { return nutrientes; }
+
+    void adicionarAgua(int valor);
+    void retirarAgua(int valor);
+    void adicionarNutrientes(int valor);
+    void retirarNutrientes(int valor);
 };
+
 #endif //SOLO_H

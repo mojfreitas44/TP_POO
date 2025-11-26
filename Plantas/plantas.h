@@ -6,6 +6,8 @@
 #define TRABALHOPRATICO_PLANTAS_H
 
 class Solo;
+class Jardim;
+
 class Plantas {
 protected:
     int agua;
@@ -17,6 +19,8 @@ public:
     virtual void simular(Solo& solo) = 0;
     virtual char getTipo() const = 0;
 
+    int getAgua() const { return agua; }
+    int getNutrientes() const { return nutrientes; }
 };
 
 

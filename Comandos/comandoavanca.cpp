@@ -22,12 +22,9 @@ bool Comandoavanca::executar(Jardim*& jardim, stringstream& parametros) {
 
         // Simular N instantes
         for (int i = 0; i < n; i++) {
-            // AQUI ENTRARÁ A SIMULAÇÃO DAS PLANTAS (FUTURO)
-            // jardim->simularInstante();
+            jardim->simularInstante();
         }
-
         jardim->getJardineiro()->resetarAcoes();
-
         cout << "Avancou " << n << " instante(s)." << endl;
         return true;
     }

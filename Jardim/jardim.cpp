@@ -138,6 +138,26 @@ void Jardim::inicializarFerramentas() {
         }
     }
 }
+void Jardim::simularInstante() {
+    // Percorre todo o jardim
+    for (int l = 0; l < linhas; l++) {
+        for (int c = 0; c < colunas; c++) {
+            Solo* solo = getSolo(l, c);
+
+            // 1. Se houver planta, ela age (bebe, cresce, morre)
+            if (solo->getPlanta() != nullptr) {
+                solo->getPlanta()->simular(*solo);
+
+                // Verifica se a planta morreu (opcional: lógica de remover se já não existir)
+                // Nota: A morte geralmente é tratada dentro do simular da planta ou aqui se ela retornar bool
+            }
+
+            // 2. Ação da ferramenta (se o jardineiro estiver lá com uma ferramenta equipada)
+            // (Podes implementar isto mais tarde)
+        }
+    }
+}
+
 
 Solo* Jardim::getSolo(int linha, int coluna) {
     if(linha >= 0 && linha < linhas && coluna >= 0 && coluna < colunas)
