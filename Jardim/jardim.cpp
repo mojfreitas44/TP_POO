@@ -116,7 +116,7 @@ void Jardim::inicializarFerramentas() {
     int areaTotal = linhas * colunas;
     int numeroFerramentas = (areaTotal < 3) ? areaTotal : 3;
 
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < numeroFerramentas; i++) {
         int c, l;
         Solo* soloAlvo;
         do {
