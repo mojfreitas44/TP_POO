@@ -35,7 +35,7 @@ bool ComandoPlanta::executar(Jardim*& jardim, std::stringstream& parametros)  {
             Solo *solo = jardim->getSolo(p.getLinha(), p.getColuna());
 
             // Verifica se já tem planta ou ferramenta
-            if (!solo->estaVazio()) {
+            if (solo->getPlanta() != nullptr) {
                 cout << "A posicao " << posStr << " ja esta ocupada." << endl;
                 return false;
             }

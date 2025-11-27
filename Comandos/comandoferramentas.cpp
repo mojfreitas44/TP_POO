@@ -59,7 +59,6 @@ bool ComandoFerramentas::executar(Jardim*& jardim, std::stringstream& parametros
     }
     else if (nomeComando == "compra"){
         char tipo;
-        cout << "aqui"<<endl;
         if(parametros >> tipo){
             Ferramentas* novaFerramenta = nullptr;
             switch(tolower(tipo)){
@@ -80,15 +79,12 @@ bool ComandoFerramentas::executar(Jardim*& jardim, std::stringstream& parametros
                     return false;
             }
             j->apanharFerramenta(novaFerramenta);
-            cout << "Comprou ferramenta '" << tipo << " (ID: " << novaFerramenta->getID() << ")" << endl;
+            cout << "Comprou ferramenta '" << tipo << "' (ID: " << novaFerramenta->getID() << ")" << endl;
             return true;
         }else{
             cout << "Erro: não foi possível comprar ferramenta." << endl;
             return false;
         }
     }
-
-
-
     return false;
 }

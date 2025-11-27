@@ -40,11 +40,10 @@ public:
 
     const std::vector<Ferramentas*>& getMochila () const {return mochila;}
 
-    //gestao turnos
     void resetarAcoes();
     bool podeMover() const;
     void registarMovimento();
-
+    void verificarFerramentaNaMao();
     bool podeColher() const;
     void registarColheita();
 

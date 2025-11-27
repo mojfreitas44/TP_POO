@@ -6,6 +6,7 @@
 #include <vector>
 #include <cstdlib>
 #include <algorithm> // Para usar std::min
+#include <iostream>  // Necessário para avisar que morreu
 
 using namespace std;
 
@@ -20,21 +21,17 @@ void Roseira::simular(Jardim& jardim, int l, int c) {
     Solo* solo = jardim.getSolo(l, c);
 
     // --- 1. METABOLISMO (Gasta sempre) ---
-    // Regra: perde 4 unidades de água e 4 de nutrientes.
     this->agua -= Settings::Roseira::perda_agua;
     this->nutrientes -= Settings::Roseira::perda_nutrientes;
 
     // --- 2. ABSORÇÃO (Só o que existe) ---
-    // Regra: absorve 5 unidades de água do solo (se existir).
-    // Correção: Verificamos quanto há no solo antes de tirar.
     int aguaDesejada = Settings::Roseira::absorcao_agua;
     int aguaDisponivel = solo->getAgua();
-    int aguaParaBeber = std::min(aguaDesejada, aguaDisponivel); // Bebe o mínimo entre o que quer e o que há
+    int aguaParaBeber = std::min(aguaDesejada, aguaDisponivel);
 
     solo->retirarAgua(aguaParaBeber);
     this->agua += aguaParaBeber;
 
-    // Regra: absorve 8 unidades de nutrientes do solo (se existir).
     int nutDesejados = Settings::Roseira::absorcao_nutrientes;
     int nutDisponiveis = solo->getNutrientes();
     int nutParaComer = std::min(nutDesejados, nutDisponiveis);
@@ -42,61 +39,69 @@ void Roseira::simular(Jardim& jardim, int l, int c) {
     solo->retirarNutrientes(nutParaComer);
     this->nutrientes += nutParaComer;
 
-    // --- 3. VERIFICAR VIZINHOS ---
-    // Necessário para regra de morte (cercada) e reprodução
     vector<Posicao> vizinhosLivres;
+    int vizinhosComPlanta = 0;
+    int totalVizinhosValidos = 0; // Contar limites do mapa
 
     for (int dl = -1; dl <= 1; dl++) {
         for (int dc = -1; dc <= 1; dc++) {
-            if (dl == 0 && dc == 0) continue; // Ignora a própria posição
+            if (dl == 0 && dc == 0) continue;
 
             Solo* viz = jardim.getSolo(l + dl, c + dc);
             if (viz != nullptr) {
+                totalVizinhosValidos++;
+
+                // Para reprodução: Espaço totalmente vazio
                 if (viz->estaVazio()) {
                     vizinhosLivres.push_back(Posicao(l + dl, c + dc));
+                }
+
+                // Para morte: Contar especificamente plantas vizinhas
+                if (viz->getPlanta() != nullptr) {
+                    vizinhosComPlanta++;
                 }
             }
         }
     }
 
     // --- 4. MORTE ---
-    // Regras de morte: Agua=0, Nutrientes=0, Nutrientes>=200, ou cercada.
     bool semRecursos = (this->agua <= 0 || this->nutrientes <= 0);
-    bool excessoNutrientes = (this->nutrientes >= Settings::Roseira::morre_nutrientes_maior); // 200
-    bool cercada = vizinhosLivres.empty(); // Se não há livres, está cercada
+    bool excessoNutrientes = (this->nutrientes >= Settings::Roseira::morre_nutrientes_maior);
 
-    if (semRecursos || excessoNutrientes || cercada) {
-        // Regra: Deixa no solo metade dos nutrientes que absorveu (neste caso, o que tem acumulado) e metade da água.
-        solo->adicionarNutrientes(this->nutrientes / 2);
-        solo->adicionarAgua(this->agua / 2);
+    // CORREÇÃO: Só está cercada se o nº de plantas vizinhas for igual ao nº de vizinhos
+    // Se houver uma ferramenta ao lado, não é planta, logo não morre por "sufoco"
+    bool sufocadaPorPlantas = (totalVizinhosValidos > 0 && vizinhosComPlanta == totalVizinhosValidos);
 
-        solo->setPlanta(nullptr); // Remove a planta do jogo
+    if (semRecursos || excessoNutrientes || sufocadaPorPlantas) {
+        // Mensagem de Morte
+        char linhaChar = static_cast<char>('a' + l);
+        char colChar = static_cast<char>('a' + c);
+        cout << "Roseira morreu na posicao " << linhaChar << colChar << " (Nut: " << this->nutrientes << ")." << endl;
+
+        if (this->nutrientes > 0) solo->adicionarNutrientes(this->nutrientes / 2);
+        if (this->agua > 0) solo->adicionarAgua(this->agua / 2);
+
+        solo->setPlanta(nullptr);
         return;
     }
 
     // --- 5. REPRODUÇÃO ---
-    // Regra: Nutrientes > 100 e existe posição vizinha vazia.
     if (this->nutrientes > Settings::Roseira::multiplica_nutrientes_maior && !vizinhosLivres.empty()) {
-
-        // Escolhe vizinho
         int idx = rand() % vizinhosLivres.size();
         Posicao p = vizinhosLivres[idx];
 
-        // Regra: Nova planta começa com 25 nutrientes e metade da água da original.
         Roseira* novaPlanta = new Roseira();
 
-        // A mãe divide a água atual por 2
         int aguaAtual = this->agua;
         this->agua = aguaAtual / 2; // Mãe fica com metade
 
-        // Precisas de um 'setAgua' na classe Plantas ou Roseira, ou usar friend class.
-        // Como as variaveis são protected, a Roseira consegue aceder às variaveis de outra Roseira!
-        novaPlanta->agua = aguaAtual / 2; // Filha fica com metade
-        novaPlanta->nutrientes = Settings::Roseira::nova_nutrientes; // 25
+        // Define valores da filha
+        novaPlanta->setAgua(aguaAtual / 2);
+        novaPlanta->setNutrientes(Settings::Roseira::nova_nutrientes);
 
         jardim.getSolo(p.getLinha(), p.getColuna())->setPlanta(novaPlanta);
 
-        // Regra: Roseira original fica com 100 nutrientes.
+        // Atualiza mãe
         this->nutrientes = Settings::Roseira::original_nutrientes;
     }
 }

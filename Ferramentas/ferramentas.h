@@ -17,7 +17,7 @@ public:
     virtual  char getTipo() const = 0;
     virtual void simular (Solo *solo) {}
     int getID () const {return id;}
-
+    virtual bool gastou() const { return false; }
 };
 
 

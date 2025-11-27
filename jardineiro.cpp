@@ -1,6 +1,10 @@
 #include "jardineiro.h"
 #include "Ferramentas/ferramentas.h"
 #include "Settings.h"
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
 Jardineiro::Jardineiro()
         : dentroDoJardim(false), linha(0), coluna(0),
           ferramentaNaMao(nullptr), movimentosFeitos(0), plantasPlantadas(0),plantasColhidas(0) {}
@@ -74,4 +78,21 @@ void Jardineiro::registarColheita() {
 
 void Jardineiro::registarMovimento() {
     movimentosFeitos++;
+}
+
+void Jardineiro::verificarFerramentaNaMao() {
+    if (ferramentaNaMao != nullptr && ferramentaNaMao->gastou()) {
+        cout << "A ferramenta " << ferramentaNaMao->getTipo()
+             << " (ID: " << ferramentaNaMao->getID() << ") acabou e foi deitada fora!" << endl;
+
+        // 1. Encontrar e remover do vetor mochila
+        auto it = std::remove(mochila.begin(), mochila.end(), ferramentaNaMao); // ou vector<Ferramentas*>::iterator it = ...
+        mochila.erase(it, mochila.end());
+
+        // 2. Apagar da memória
+        delete ferramentaNaMao;
+
+        // 3. Esvaziar a mão
+        ferramentaNaMao = nullptr;
+    }
 }
