@@ -1,7 +1,3 @@
-//
-// Created by Rodrigo on 16/11/2025.
-//
-
 #include "comandoferramentas.h"
 #include <string>
 #include <sstream>
@@ -11,7 +7,7 @@
 #include "../Ferramentas/regador.h"
 #include "../Ferramentas/adubo.h"
 #include "../Ferramentas/tesoura.h"
-#include "../Ferramentas/gadanha.h"
+#include "../Ferramentas/ferramentaZ.h"
 
 using namespace std;
 
@@ -24,7 +20,7 @@ bool ComandoFerramentas::executar(Jardim*& jardim, std::stringstream& parametros
 
         cout << "=== FERRAMENTAS DO JARDINEIRO ===" << endl;
         if(j->getFerramentaNaMao())
-            cout << "Ferramenta na mao: ID " << j->getFerramentaNaMao()->getID() << " Tipo " << j->getFerramentaNaMao()->getTipo() << endl;
+            cout << "Ferramenta na mao: ID: " << j->getFerramentaNaMao()->getID() << " Tipo: " << j->getFerramentaNaMao()->getTipo() << endl;
         else
             cout << "Nenhuma ferramenta na mao." << endl;
 
@@ -73,7 +69,7 @@ bool ComandoFerramentas::executar(Jardim*& jardim, std::stringstream& parametros
                     novaFerramenta = new Tesoura();
                     break;
                 case 'z':
-                    novaFerramenta = new Gadanha();
+                    novaFerramenta = new FerramentaZ();
                     break;
                 default:
                     cout << "Tipo de ferramenta invalido: " << tipo << endl;

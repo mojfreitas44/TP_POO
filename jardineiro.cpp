@@ -1,16 +1,17 @@
 #include "jardineiro.h"
 #include "Ferramentas/ferramentas.h"
 #include "Settings.h"
-#include <iostream>
 #include <algorithm>
+#include <iostream>
+
 using namespace std;
 
 Jardineiro::Jardineiro()
         : dentroDoJardim(false), linha(0), coluna(0),
-          ferramentaNaMao(nullptr), movimentosFeitos(0), plantasPlantadas(0),plantasColhidas(0) {}
+          ferramentaNaMao(nullptr), movimentosFeitos(0), plantasPlantadas(0), plantasColhidas(0) {}
 
 Jardineiro::~Jardineiro() {
-    // Limpar a memória das ferramentas na mochila
+    delete ferramentaNaMao; // Apaga a da mão se existir
     for (Ferramentas* f : mochila) {
         delete f;
     }
@@ -32,7 +33,7 @@ void Jardineiro::setPosicao(int l, int c) {
     coluna = c;
 }
 
-// --- Gestão de Ferramentas ---
+// --- GESTÃO DE FERRAMENTAS ---
 
 void Jardineiro::apanharFerramenta(Ferramentas* f) {
     if (f != nullptr) {
@@ -41,18 +42,48 @@ void Jardineiro::apanharFerramenta(Ferramentas* f) {
 }
 
 bool Jardineiro::equiparFerramenta(int id) {
-    // Procura na mochila
-    for (Ferramentas* f : mochila) {
-        if (f->getID() == id) {
-            ferramentaNaMao = f; // Coloca na mão
+    // 1. Procurar a ferramenta na mochila
+    for (auto it = mochila.begin(); it != mochila.end(); ++it) {
+        if ((*it)->getID() == id) {
+
+            // Encontrou!
+            Ferramentas* novaFerramenta = *it;
+
+            // 2. Se já tiver algo na mão, devolve à mochila
+            if (ferramentaNaMao != nullptr) {
+                mochila.push_back(ferramentaNaMao);
+                cout << "Guardou a ferramenta " << ferramentaNaMao->getTipo() << " na mochila." << endl;
+            }
+
+            // 3. Põe a nova na mão
+            ferramentaNaMao = novaFerramenta;
+
+            // 4. Remove a nova da mochila (agora só está na mão)
+            mochila.erase(it);
+
             return true;
         }
     }
-    return false; // Não encontrou
+    return false; // Não encontrou esse ID na mochila
 }
 
 void Jardineiro::largarFerramenta() {
-    ferramentaNaMao = nullptr; // Apenas tira da mão, continua na mochila (ou pointer fica solto se lógica for diferente)
+    // Largar = Guardar na mochila
+    if (ferramentaNaMao != nullptr) {
+        mochila.push_back(ferramentaNaMao);
+        ferramentaNaMao = nullptr;
+    }
+}
+
+void Jardineiro::verificarFerramentaNaMao() {
+    // Como a ferramenta na mão JÁ NÃO ESTÁ na mochila, basta apagar a da mão.
+    if (ferramentaNaMao != nullptr && ferramentaNaMao->gastou()) {
+        cout << "A ferramenta " << ferramentaNaMao->getTipo()
+             << " (ID: " << ferramentaNaMao->getID() << ") acabou e foi deitada fora!" << endl;
+
+        delete ferramentaNaMao; // Apaga da memória
+        ferramentaNaMao = nullptr; // Esvazia a mão
+    }
 }
 
 // --- Gestão de Ações ---
@@ -64,8 +95,7 @@ void Jardineiro::resetarAcoes() {
 }
 
 bool Jardineiro::podeMover() const {
-    // Exemplo: limite de 10 movimentos (Settings::Jardineiro::max_movimentos)
-    return movimentosFeitos < 10;
+    return movimentosFeitos < Settings::Jardineiro::max_movimentos;
 }
 
 bool Jardineiro::podeColher() const {
@@ -78,21 +108,4 @@ void Jardineiro::registarColheita() {
 
 void Jardineiro::registarMovimento() {
     movimentosFeitos++;
-}
-
-void Jardineiro::verificarFerramentaNaMao() {
-    if (ferramentaNaMao != nullptr && ferramentaNaMao->gastou()) {
-        cout << "A ferramenta " << ferramentaNaMao->getTipo()
-             << " (ID: " << ferramentaNaMao->getID() << ") acabou e foi deitada fora!" << endl;
-
-        // 1. Encontrar e remover do vetor mochila
-        auto it = std::remove(mochila.begin(), mochila.end(), ferramentaNaMao); // ou vector<Ferramentas*>::iterator it = ...
-        mochila.erase(it, mochila.end());
-
-        // 2. Apagar da memória
-        delete ferramentaNaMao;
-
-        // 3. Esvaziar a mão
-        ferramentaNaMao = nullptr;
-    }
 }

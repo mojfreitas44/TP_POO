@@ -22,7 +22,7 @@ Jardim/jardim.cpp
         Ferramentas/regador.cpp
         Ferramentas/tesoura.cpp
         Ferramentas/adubo.cpp
-        Ferramentas/gadanha.cpp
+        Ferramentas/ferramentaZ.cpp
         Ferramentas/regador.h
         Comandos/comandoferramentas.cpp
         jardineiro.cpp

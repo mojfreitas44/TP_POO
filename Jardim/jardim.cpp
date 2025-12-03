@@ -6,7 +6,7 @@
 #include "../Ferramentas/regador.h"
 #include "../Ferramentas/adubo.h"
 #include "../Ferramentas/tesoura.h"
-#include "../Ferramentas/gadanha.h"
+#include "../Ferramentas/ferramentaZ.h"
 
 
 using namespace std;
@@ -102,7 +102,7 @@ void Jardim::reporFerramenta() {
         case 0: novaFerramenta = new Regador(); break;
         case 1: novaFerramenta = new Adubo(); break;
         case 2: novaFerramenta = new Tesoura(); break;
-        case 3: novaFerramenta = new Gadanha(); break;
+        case 3: novaFerramenta = new FerramentaZ(); break;
     }
 
     if (novaFerramenta != nullptr) {
@@ -131,7 +131,7 @@ void Jardim::inicializarFerramentas() {
             case 0: novaFerramenta = new Regador(); break;
             case 1: novaFerramenta = new Adubo(); break;
             case 2: novaFerramenta = new Tesoura(); break;
-            case 3: novaFerramenta = new Gadanha(); break;
+            case 3: novaFerramenta = new FerramentaZ(); break;
         }
         if(novaFerramenta != nullptr) {
             soloAlvo->setFerramenta(novaFerramenta);

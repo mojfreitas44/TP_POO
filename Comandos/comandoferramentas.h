@@ -7,7 +7,7 @@
 #include "../Ferramentas/adubo.h"
 #include "../Ferramentas/ferramentas.h"
 #include "../Ferramentas/regador.h"
-#include "../Ferramentas/gadanha.h"
+#include "../Ferramentas/ferramentaZ.h"
 #include "../Ferramentas/tesoura.h"
 #include "comando.h"
 #include "../Solo.h"
