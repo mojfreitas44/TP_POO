@@ -1,10 +1,7 @@
-//
-// Created by Rodrigo on 16/11/2025.
-//
 
 #ifndef TRABALHOPRATICO_FERRAMENTAS_H
 #define TRABALHOPRATICO_FERRAMENTAS_H
-
+#include <string>
 
 class Solo;
 class Ferramentas{
@@ -14,8 +11,11 @@ protected:
 public:
     Ferramentas();
     virtual ~Ferramentas(){}
+
     virtual  char getTipo() const = 0;
     virtual void simular (Solo *solo) {}
+
+    virtual std::string getDetalhes() const = 0;
     int getID () const {return id;}
     virtual bool gastou() const { return false; }
 };

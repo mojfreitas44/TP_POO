@@ -12,7 +12,11 @@ public:
 
     char getTipo() const override { return 'a'; }
 
-    // Método que aplica o efeito
+    std::string getDetalhes() const override{
+        return "Qntd: " + std::to_string(quantidade);
+    }
+
+    // Ação do adubo (repor nutrientes e gastar carga)
     void simular(Solo* solo) override;
 
     // Getter para veres quanto resta (útil para debug)

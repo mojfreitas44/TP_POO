@@ -27,14 +27,15 @@ bool ComandoFerramentas::executar(Jardim*& jardim, std::stringstream& parametros
             cout << "Ferramenta na mao: ID " << j->getFerramentaNaMao()->getID() << " Tipo " << j->getFerramentaNaMao()->getTipo() << endl;
         else
             cout << "Nenhuma ferramenta na mao." << endl;
+
         const vector<Ferramentas*>& mochila = j->getMochila();
         cout <<"Mochila(" << mochila.size() << "itens):" << endl;
         for(int i=0; i<mochila.size(); i++){
-            cout << "Tipo: " << mochila[i]->getTipo() << " ID: " << mochila[i]->getID() << endl;
-
+            cout << " - [" << mochila[i]->getTipo() << "] "
+                 << "ID: " << mochila[i]->getID()
+                 << " | " << mochila[i]->getDetalhes() << endl;
         }
         return true;
-
     }
     else if (nomeComando == "larga"){
         if(j->getFerramentaNaMao()!= nullptr){

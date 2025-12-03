@@ -12,9 +12,6 @@ void Adubo::simular(Solo* solo) {
 
          cout << "Adubo aplicado! Restam " << quantidade << " doses." << endl;
     } else {
-        // O enunciado diz que quando acaba, o jardineiro deita fora.
-        // Essa lógica de "deitar fora" podes implementar depois no Jardineiro,
-        // ou simplesmente deixar de atuar.
         // cout << "O adubo acabou." << endl;
     }
 }
