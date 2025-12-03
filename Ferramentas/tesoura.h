@@ -10,9 +10,7 @@ class Tesoura : public Ferramentas {
 public:
     Tesoura(){}
     char getTipo() const override { return 't'; }
-    std::string getDetalhes() const override {
-        return "Indestrutivel";
-    }
+    std::string getDetalhes() const override {return "Indestrutivel";}
     bool gastou() const override { return false; }
     void simular(Solo* solo) override;
 };
