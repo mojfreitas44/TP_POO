@@ -50,12 +50,10 @@ void Roseira::simular(Jardim& jardim, int l, int c) {
             Solo* viz = jardim.getSolo(l + dl, c + dc);
             if (viz != nullptr) {
                 totalVizinhosValidos++;
-
                 // Para reprodução: Espaço totalmente vazio
                 if (viz->estaVazio()) {
                     vizinhosLivres.push_back(Posicao(l + dl, c + dc));
                 }
-
                 // Para morte: Contar especificamente plantas vizinhas
                 if (viz->getPlanta() != nullptr) {
                     vizinhosComPlanta++;
@@ -63,20 +61,17 @@ void Roseira::simular(Jardim& jardim, int l, int c) {
             }
         }
     }
-
     // --- 4. MORTE ---
-    bool semRecursos = (this->agua <= 0 || this->nutrientes <= 0);
+    bool semAgua = (this->agua < Settings::Roseira::morre_agua_menor);
+    bool semNutrientes = (this->nutrientes < Settings::Roseira::morre_nutrientes_menor);
     bool excessoNutrientes = (this->nutrientes >= Settings::Roseira::morre_nutrientes_maior);
+    bool sufocada = (totalVizinhosValidos > 0 && vizinhosComPlanta == totalVizinhosValidos);
 
-    // CORREÇÃO: Só está cercada se o nº de plantas vizinhas for igual ao nº de vizinhos
-    // Se houver uma ferramenta ao lado, não é planta, logo não morre por "sufoco"
-    bool sufocadaPorPlantas = (totalVizinhosValidos > 0 && vizinhosComPlanta == totalVizinhosValidos);
-
-    if (semRecursos || excessoNutrientes || sufocadaPorPlantas) {
-        // Mensagem de Morte
-        char linhaChar = static_cast<char>('a' + l);
-        char colChar = static_cast<char>('a' + c);
-        cout << "Roseira morreu na posicao " << linhaChar << colChar << " (Nut: " << this->nutrientes << ")." << endl;
+    if (semAgua || semNutrientes || excessoNutrientes || sufocada) {
+        char lChar = (char)('a' + l);
+        char cChar = (char)('a' + c);
+        cout << "Roseira morreu em " << lChar << cChar << " (Agua: " << this->agua
+             << ", Nut: " << this->nutrientes << ")." << endl;
 
         if (this->nutrientes > 0) solo->adicionarNutrientes(this->nutrientes / 2);
         if (this->agua > 0) solo->adicionarAgua(this->agua / 2);
@@ -85,23 +80,26 @@ void Roseira::simular(Jardim& jardim, int l, int c) {
         return;
     }
 
-    // --- 5. REPRODUÇÃO ---
+    // --- 5. REPRODUÇÃO (CORRIGIDO COM SETTINGS) ---
     if (this->nutrientes > Settings::Roseira::multiplica_nutrientes_maior && !vizinhosLivres.empty()) {
         int idx = rand() % vizinhosLivres.size();
         Posicao p = vizinhosLivres[idx];
 
         Roseira* novaPlanta = new Roseira();
 
+        // Usa as constantes de percentagem em vez de dividir por 2
         int aguaAtual = this->agua;
-        this->agua = aguaAtual / 2; // Mãe fica com metade
 
-        // Define valores da filha
-        novaPlanta->setAgua(aguaAtual / 2);
+        // Atualiza mãe (ex: 50%)
+        this->agua = aguaAtual * Settings::Roseira::original_agua_percentagem / 100;
+        this->nutrientes = Settings::Roseira::original_nutrientes;
+
+        // Atualiza filha (ex: 50%)
+        int aguaFilha = aguaAtual * Settings::Roseira::nova_agua_percentagem / 100;
+
+        novaPlanta->setAgua(aguaFilha);
         novaPlanta->setNutrientes(Settings::Roseira::nova_nutrientes);
 
         jardim.getSolo(p.getLinha(), p.getColuna())->setPlanta(novaPlanta);
-
-        // Atualiza mãe
-        this->nutrientes = Settings::Roseira::original_nutrientes;
     }
 }

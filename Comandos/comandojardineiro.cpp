@@ -1,7 +1,3 @@
-//
-// Created by Rodrigo on 29/10/2025.
-//
-
 #include "comandojardineiro.h"
 #include "../Solo.h"
 #include <sstream>

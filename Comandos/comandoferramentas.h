@@ -1,7 +1,3 @@
-//
-// Created by Rodrigo on 16/11/2025.
-//
-
 #ifndef TRABALHOPRATICO_COMANDOFERRAMENTAS_H
 #define TRABALHOPRATICO_COMANDOFERRAMENTAS_H
 #include "../Ferramentas/adubo.h"

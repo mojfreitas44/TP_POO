@@ -79,7 +79,7 @@ bool ComandoFerramentas::executar(Jardim*& jardim, std::stringstream& parametros
             cout << "Comprou ferramenta '" << tipo << "' (ID: " << novaFerramenta->getID() << ")" << endl;
             return true;
         }else{
-            cout << "Erro: não foi possível comprar ferramenta." << endl;
+            cout << "Uso: compra <g> | <a> | <t> | <z> (Regador, Adubo, Tesoura, Vitamina)" << endl;
             return false;
         }
     }

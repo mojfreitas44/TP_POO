@@ -1,8 +1,10 @@
 #ifndef TRABALHOPRATICO_FERRAMENTAZ_H
 #define TRABALHOPRATICO_FERRAMENTAZ_H
 #include "ferramentas.h"
-//Vitamina de uso único
-//Coloca
+// ---------------------------------------------- //
+// ----------- VITAMINA DE USO ÚNICO  ----------- //
+// ------- DUPLICA OS STATS DE UMA PLANTA ------- //
+// ---------------------------------------------- //
 class FerramentaZ : public Ferramentas{
 bool usou;
 public:

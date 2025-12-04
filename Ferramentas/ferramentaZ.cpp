@@ -4,7 +4,10 @@
 #include <iostream>
 
 using namespace std;
-
+// ---------------------------------------------- //
+// ----------- VITAMINA DE USO ÚNICO  ----------- //
+// ------- DUPLICA OS STATS DE UMA PLANTA ------- //
+// ---------------------------------------------- //
 void FerramentaZ::simular(Solo* solo) {
     if (usou) return;
     Plantas* p = solo->getPlanta();
